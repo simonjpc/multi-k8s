@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service-account.json service-account.json.gpg
         env:
           KUBERNETES_PHRASE: ${{ secrets.KUBERNETES_PHRASE }}
