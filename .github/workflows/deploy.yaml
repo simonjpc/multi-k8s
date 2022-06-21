@@ -8,8 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - run: echo $(pwd)
-      - run: echo $(ls)
+      - run: echo $HOME
       - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service-account.json service-account.json.gpg
       - run: curl https://sdk.cloud.google.com | bash > /dev/null;
       - run: source $HOME/google-cloud-sdk/path.bash.inc
