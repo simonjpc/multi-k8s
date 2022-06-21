@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service-account.json service-account.json.gpg
+        env:
+          KUBERNETES_PHRASE: ${{ secrets.KUBERNETES_PHRASE }}
       #- run: sudo apt-get install apt-transport-https ca-certificates gnupg
       - run: echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
       #- run: curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
@@ -29,10 +32,6 @@ jobs:
       #- run: sudo apt-get install google-cloud-cli -y
       #- run: echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-cli -y
       #- run: echo $(lsb_release -a)
-      - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service-account.json service-account.json.gpg
-        env:
-          KUBERNETES_PHRASE: ${{ secrets.KUBERNETES_PHRASE }}
-      
       #- run: curl https://sdk.cloud.google.com | bash > /dev/null;
       #- run: source $HOME/google-cloud-sdk/path.bash.inc
       #- run: sudo apt-get install kubectl
@@ -45,4 +44,4 @@ jobs:
       - run: docker run -e CI=true simonpcpc/react-test npm test
       
       - name: Deploy to GKE
-        run: deploy.sh
+        run: bash ./deploy.sh
