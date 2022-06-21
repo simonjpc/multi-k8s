@@ -3,12 +3,16 @@ on:
   push:
     branches:
       - master
- 
+
+env:
+  SHA: $(git rev-parse HEAD)
+  CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service-account.json service-account.json.gpg
         env:
           KUBERNETES_PHRASE: ${{ secrets.KUBERNETES_PHRASE }}
@@ -16,3 +20,12 @@ jobs:
       - run: source $HOME/google-cloud-sdk/path.bash.inc
       - run: gcloud components update kubectl
       - run: gcloud auth activate-service-account --key-file service-account.json
+      - run: gcloud config set project multi-k8s-354008
+      - run: gcloud config set compute/zone europe-west3-a
+      - run: gcloud container clusters get-credentials multi-cluster
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker build -t simonpcpc/react-test -f ./client/Dockerfile.dev ./client
+      - run: docker run -e CI=true simonpcpc/react-test npm test
+      
+      - name: Deploy to GKE
+        run: deploy.sh
