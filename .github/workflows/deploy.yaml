@@ -19,16 +19,17 @@ jobs:
       - run: curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
       - run: sudo apt-get clean
       - run: sudo apt-get update && sudo apt-get upgrade
-      - run: sudo apt-get update -y && sudo apt-get install google-cloud-cli -y
+      - run: curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-390.0.0-linux-x86_64.tar.gz -o google-cloud-cli-390.0.0-linux-x86.tar.gz
+      - run: tar -zxf google-cloud-cli-390.0.0-linux-x86.tar.gz
+      - run: ./google-cloud-sdk/install.sh
+      - run: source ~/.bashrc
+      #- run: sudo apt-get install google-cloud-cli -y
       #- run: echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-cli -y
       #- run: echo $(lsb_release -a)
       - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service-account.json service-account.json.gpg
         env:
           KUBERNETES_PHRASE: ${{ secrets.KUBERNETES_PHRASE }}
-      #- run: curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-390.0.0-linux-x86_64.tar.gz -o google-cloud-cli-390.0.0-linux-x86.tar.gz
-      #- run: tar -zxf google-cloud-cli-390.0.0-linux-x86.tar.gz
-      #- run: ./google-cloud-sdk/install.sh
-      #- run: source ~/.bashrc
+      
       #- run: curl https://sdk.cloud.google.com | bash > /dev/null;
       #- run: source $HOME/google-cloud-sdk/path.bash.inc
       #- run: sudo apt-get install kubectl
