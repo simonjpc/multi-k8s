@@ -22,7 +22,7 @@ jobs:
       - run: source ~/.bashrc
       #- run: curl https://sdk.cloud.google.com | bash > /dev/null;
       #- run: source $HOME/google-cloud-sdk/path.bash.inc
-      - run: sudo apt-get install kubectl
+      #- run: sudo apt-get install kubectl
       - run: gcloud components update kubectl
       - run: gcloud auth activate-service-account --key-file service-account.json
       - run: gcloud config set project multi-k8s-354008
