@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service_account.json service_account.json.gpg
+      - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service-account.json service-account.json.gpg
       - run: curl https://sdk.cloud.google.com | bash > /dev/null;
       - run: source $HOME/google-cloud-sdk/path.bash.inc
       - run: gcloud components update kubectl
