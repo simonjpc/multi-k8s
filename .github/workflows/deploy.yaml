@@ -23,8 +23,9 @@ jobs:
       - run: tar -zxf google-cloud-cli-390.0.0-linux-x86.tar.gz
       - run: ./google-cloud-sdk/install.sh
       - run: source ~/.bashrc
-      - run: gcloud components update
-      - run: gcloud components install kubectl
+      - run: sudo apt-get update && sudo apt-get --only-upgrade install kubectl google-cloud-sdk-kubectl-oidc
+      #- run: gcloud components update
+      #- run: gcloud components install kubectl
       #- run: sudo apt-get install google-cloud-cli -y
       #- run: echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-cli -y
       #- run: echo $(lsb_release -a)
