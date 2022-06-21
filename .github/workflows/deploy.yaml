@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: echo ${{ env.SHA }}
+      #- run: echo ${{ env.SHA }}
       - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service-account.json service-account.json.gpg
         env:
           KUBERNETES_PHRASE: ${{ secrets.KUBERNETES_PHRASE }}
@@ -22,7 +22,7 @@ jobs:
       #- run: curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
       - run: curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
       - run: sudo apt-get clean
-      - run: sudo apt-get update && sudo apt-get upgrade
+      #- run: sudo apt-get update && sudo apt-get upgrade
       - run: curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-390.0.0-linux-x86_64.tar.gz -o google-cloud-cli-390.0.0-linux-x86.tar.gz
       - run: tar -zxf google-cloud-cli-390.0.0-linux-x86.tar.gz
       - run: ./google-cloud-sdk/install.sh
