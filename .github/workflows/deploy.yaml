@@ -45,8 +45,7 @@ jobs:
       - run: docker run -e CI=true simonpcpc/react-test npm test
       
       - name: Set SHA variable
-        id: sha-env
-        run: |
-          echo '::set-output name=SHA::git rev-parse HEAD'
+        id: SHA
+        run: echo $(git rev-parse HEAD)
       - name: Deploy to GKE
         run: bash ./deploy.sh
