@@ -16,8 +16,12 @@ jobs:
       - run: gpg --quiet --batch --yes --decrypt --passphrase="$KUBERNETES_PHRASE" --output service-account.json service-account.json.gpg
         env:
           KUBERNETES_PHRASE: ${{ secrets.KUBERNETES_PHRASE }}
-      - run: curl https://sdk.cloud.google.com | bash > /dev/null;
-      - run: source $HOME/google-cloud-sdk/path.bash.inc
+      - run: curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-390.0.0-linux-x86_64.tar.gz
+      - run: tar -zxf google-cloud-sdk-*
+      - run: ./google-cloud-sdk/install.sh
+      - run: source ~/.bashrc
+      #- run: curl https://sdk.cloud.google.com | bash > /dev/null;
+      #- run: source $HOME/google-cloud-sdk/path.bash.inc
       - run: sudo apt-get install kubectl
       - run: gcloud components update kubectl
       - run: gcloud auth activate-service-account --key-file service-account.json
