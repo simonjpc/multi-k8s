@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+ 
+kind: Certificate
+metadata:
+  name: formationk8s-com-tls
+spec:
+  secretName: formationk8s-com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: formationk8s.com
+  dnsNames:
+    - formationk8s.com
+    - www.formationk8s.com
